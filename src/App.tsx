@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import "./App.css";
+import PlayingGame from "./PlayingGame";
+import StartScreen from "./StartScreen";
+import EndGame from "./EndGame";
+import useLocaStorage from "./useLocalStorage";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  var [currentScreen, setScreen] = React.useState("start");
+  var [highScore, setHighScore] = useLocaStorage('highscore', 0);
+  var [lastGameScore, setLastGameScore] = React.useState(0);
+  var [lastGameCorrect, setLastGameCorrect] = React.useState(0);
+  var [lastGameIncorrect, setLastGameIncorrect] = React.useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  if (currentScreen === "start") {
+    return <StartScreen highScore={highScore} setScreen={setScreen} />;
+  }
+
+  if (currentScreen === "playing") {
+    return (
+      <PlayingGame
+        highScore={highScore}
+        setScreen={setScreen}
+        setHighScore={setHighScore}
+        setLastGameScore={setLastGameScore}
+        setLastGameCorrect={setLastGameCorrect}
+        setLastGameIncorrect={setLastGameIncorrect}
+      />
+    );
+  }
+
+  if (currentScreen === "end") {
+    return (
+      <EndGame
+        setScreen={setScreen}
+        lastGameScore={lastGameScore}
+        highScore={highScore}
+        correct={lastGameCorrect}
+        incorrect={lastGameIncorrect}
+      />
+    );
+  }
+
+  return null;
 }
-
-export default App
