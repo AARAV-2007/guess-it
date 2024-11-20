@@ -5,7 +5,7 @@ export default function StartScreen(props) {
 
   return (
     <div className="flex-col">
-      <h1>MOVIE GUESS!</h1>
+      <h1>Guess It!</h1>
       <div className="flexbox-item">
         <h2>
           <b>HIGHSCORE</b>
